@@ -1,0 +1,6 @@
+build/
+out/
+lib/
+.cache
+.idea
+.vscode

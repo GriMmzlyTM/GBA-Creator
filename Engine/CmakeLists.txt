@@ -1,0 +1,31 @@
+set(CMAKE_BUILD_TYPE Debug)
+add_library(Engine STATIC
+        include/GBAEngine.h
+        src/GBAEngine.cpp
+        include/ECS/ComponentContainer.h
+        src/ECS/ComponentContainer.cpp
+        include/ECS/ECSCore.h
+        src/ECS/ECSCore.cpp
+        include/ECS/Entity.h
+        src/ECS/Entity.cpp
+        include/ECS/EntityManager.h
+        src/ECS/EntityManager.cpp
+        include/ECS/ISystem.h
+        src/ECS/ISystem.cpp
+        include/ECS/SystemManager.h
+        src/ECS/SystemManager.cpp
+        include/ECS/World.h
+        src/ECS/World.cpp)
+
+target_include_directories(Engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/ 
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/ECS)
+
+# gba-toolchain sets `CMAKE_SYSTEM_NAME` to `AdvancedGameBoy`
+if(CMAKE_SYSTEM_NAME STREQUAL AdvancedGameBoy)
+   #target_compile_options(Engine PRIVATE -mthumb -fconserve-stack -fomit-frame-pointer)
+    target_link_libraries(Engine PRIVATE tonclib agbabi)
+endif()
+
+install(TARGETS Engine LIBRARY DESTINATION  ${CMAKE_SOURCE_DIR}/out/Engine
+        DESTINATION ${CMAKE_SOURCE_DIR}/out/Engine
+        PUBLIC_HEADER DESTINATION ${CMAKE_SOURCE_DIR}/out/Engine/include/engine.h)
